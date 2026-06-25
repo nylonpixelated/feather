@@ -22,19 +22,27 @@ Feather is designed for quick implementation. You can integrate it directly into
 
 1. Download the latest release from the repository.
 2. Drag the `Feather` module into your `ReplicatedStorage`.
-3. Initialize the loader script in your `ServerScriptService` and `StarterPlayerScripts`.
+3. Require the module in your scripts to begin creating services and controllers.
 
-For full documentation, API references, and usage guides, visit the official site: [nylonpixelated.github.io](https://nylonpixelated.github.io/feather/docs)
+For full documentation, API references, and usage guides, visit the official site: [nylonpixelated.github.io](https://nylonpixelated.github.io/feather)
 
 ## ⚡ Basic Usage
 
-Feather uses a simple bootstrapping method. Once you have defined your services and controllers, simply require the Feather module to initiate the lifecycle.
+Feather uses a modular approach. You define your services and controllers using the `CreateService` and `CreateController` methods.
 
+**Creating a Service (Server):**
 ```lua
--- Server-side Initialization Example
-local Feather = require(game.ReplicatedStorage.Feather)
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Feather = require(ReplicatedStorage.Packages.Feather)
 
-Feather.Start({
-    Services = game.ServerScriptService.Services,
-    Controllers = game.ReplicatedStorage.Controllers
-})
+local MyService = { Client = {} }
+
+function MyService:featherInit()
+    print("Service Initialized")
+end
+
+function MyService:featherStart()
+    print("Service Started")
+end
+
+return Feather.CreateService(MyService)
